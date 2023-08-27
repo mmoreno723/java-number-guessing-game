@@ -9,7 +9,7 @@ public class NumberGuessingGame {
         random = new Random();
         randomNumber = random.nextInt(100) + 1;
     }
-}
+
 
 public String guess(int userGuess) {
     if (userGuess < randomNumber) {
@@ -44,4 +44,5 @@ public static void main(String[] args) {
         }
     }
     scanner.close();
+}
 }
