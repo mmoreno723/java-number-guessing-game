@@ -1,13 +1,24 @@
 import java.util.Random;
 import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
 
-public class NumberGuessingGame {
+public class NumberGuessingGame extends JFrame {
     private int randomNumber;
-    private Random random;
+    private int attempts;
+    private boolean hasGuessedCorrectly;
 
     public NumberGuessingGame() {
-        random = new Random();
-        randomNumber = random.nextInt(100) + 1;
+        // Initalize Game Variables
+        randomNumber = new Random().nextInt(100) + 1;
+        attempts = 0;
+        hasGuessedCorrectly = false;
+
+        // Setting Up JFrame
+        setTitle("Java Number Guessing Game");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 150);
+        setLayout(new FlowLayout());
     }
 
 
