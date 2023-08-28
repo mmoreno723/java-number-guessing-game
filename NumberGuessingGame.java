@@ -8,6 +8,10 @@ public class NumberGuessingGame extends JFrame {
     private int attempts;
     private boolean hasGuessedCorrectly;
 
+    private JTextField guessField;
+    private JButton guessButton;
+    private JLabel resultLabel;
+
     public NumberGuessingGame() {
         // Initalize Game Variables
         randomNumber = new Random().nextInt(100) + 1;
@@ -19,6 +23,19 @@ public class NumberGuessingGame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 150);
         setLayout(new FlowLayout());
+
+        // Creating Components
+        guessField = new JTextField(10);
+        guessButton = new JButton("Guess");
+        resultLabel = new JLabel("Make a guess: ");
+
+        // Adding components to the frame
+        add(resultLabel);
+        add(guessField);
+        add(guessButton);
+
+        // Add an action listener to the guess button
+        
     }
 
 
