@@ -1,7 +1,8 @@
 import java.util.Random;
-import java.util.Scanner;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class NumberGuessingGame extends JFrame {
     private int randomNumber;
@@ -35,7 +36,23 @@ public class NumberGuessingGame extends JFrame {
         add(guessButton);
 
         // Add an action listener to the guess button
-        
+        guessButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int userGuess = Integer.parseInt(guessField.getText());
+                String result = guess(userGuess);
+
+                resultLabel.setText(result);
+
+                attempts++;
+
+                if (result.contains("correct")) {
+                    hasGuessedCorrectly = true;
+                    guessField.setEditable(false);
+                    guessButton.setEnabled(false);
+                    resultLabel.setText("Congratulations! You guessed it in " + attempts + " attempts!");
+                }
+            }
+        });
     }
 
 
@@ -50,27 +67,11 @@ public String guess(int userGuess) {
 }
 
 public static void main(String[] args) {
-    NumberGuessingGame game = new NumberGuessingGame();
-    Scanner scanner = new Scanner(System.in);
-
-    int attempts = 0;
-    boolean hasGuessedCorrectly = false;
-
-    while (!hasGuessedCorrectly) {
-        System.out.print("Enter your guess: ");
-        int userGuess = scanner.nextInt();
-        scanner.nextLine();
-
-        String result = game.guess(userGuess);
-        System.out.println(result);
-
-        attempts++;
-
-        if (result.contains("correct")) {
-            hasGuessedCorrectly = true;
-            System.out.println("You guessed it in " + attempts + " attempts!");
+    SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+            new NumberGuessingGame().setVisible(true);
         }
-    }
-    scanner.close();
+    });
 }
+
 }
