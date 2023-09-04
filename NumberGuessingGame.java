@@ -8,9 +8,9 @@ import java.util.List;
 
 public class NumberGuessingGame extends JFrame {
     private int randomNumber;
-    private int attempts;
+    private int attempts = 1;
     private boolean hasGuessedCorrectly;
-    private int score = 0;
+    
 
     private JTextField guessField;
     private JButton guessButton;
@@ -33,7 +33,7 @@ public class NumberGuessingGame extends JFrame {
         // Creating Components
         guessField = new JTextField(10);
         guessButton = new JButton("Guess");
-        resultLabel = new JLabel("Make a guess. Your score is " + score);
+        resultLabel = new JLabel("Make a guess. Your score is " + attempts);
 
         // Adding components to the frame
         add(resultLabel);
@@ -56,8 +56,9 @@ public class NumberGuessingGame extends JFrame {
                     guessButton.setEnabled(false);
 
                     String initials = JOptionPane.showInputDialog(null, "Enter your initials: ", "Game Over", JOptionPane.PLAIN_MESSAGE);
-                    scoreboard.addScore(initials, score);
-                    resultLabel.setText("Congratulations! You guessed it in " + attempts + " attempts! Your score is " + score);
+                    scoreboard.addScore(initials, attempts);
+                    resultLabel.setText("Congratulations! You guessed it in " + attempts + " attempts!");
+                    playGame();
                 }
             }
         });
@@ -66,12 +67,11 @@ public class NumberGuessingGame extends JFrame {
 
 public String guess(int userGuess) {
     if (userGuess < randomNumber) {
-        return "Too low!";
+        return "Too low! Your score is: " + attempts;
     } else if (userGuess > randomNumber) {
-        return "Too high!";
+        return "Too high! Your score is: " + attempts;
     } else {
-        score++;
-        return "That's it! You're correct!";
+        return "That's it! You're correct! Your score is: " + attempts;
     }
 }
 
@@ -93,20 +93,6 @@ public static void main(String[] args) {
             NumberGuessingGame game = new NumberGuessingGame();
             game.setVisible(true);
 
-            boolean playAgain = true;
-
-            while(playAgain) {
-                game.playGame();
-
-                int playAgainOption = JOptionPane.showConfirmDialog(null, "Play Again?", "Play Again", JOptionPane.YES_NO_OPTION);
-                if (playAgainOption != JOptionPane.YES_OPTION) {
-                    playAgain = false;
-                } else {
-                    game.displayScoreboard();
-                }
-                  
-            }
-            game.displayScoreboard();
         }
     });
 }
@@ -115,12 +101,26 @@ private void playGame() {
     randomNumber = new Random().nextInt(100) + 1;
     attempts = 0;
     hasGuessedCorrectly = false;
-    score = 0;
 
     guessField.setEditable(true);
     guessButton.setEnabled(true);
-    resultLabel.setText("Make a guess. Your score is: " + score);
+    resultLabel.setText("Make a guess. Your score is: " + attempts);
     guessField.setText("");
+
+    boolean playAgain = false;
+
+    do {
+        int playAgainOption = JOptionPane.showConfirmDialog(null, "Play Again?", "Play Again", JOptionPane.YES_NO_OPTION);
+        if (playAgainOption != JOptionPane.YES_OPTION) {
+            playAgain = true;
+            displayScoreboard();
+        } else {
+            displayScoreboard();
+            randomNumber = new Random().nextInt(100) + 1;
+            attempts = 0;
+            resultLabel.setText("Make a guess. Your score is " + attempts);
+        }
+    } while (playAgain);
 }
 }
 
